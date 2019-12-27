@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -41,9 +42,12 @@ public class Adapter extends BaseAdapter {
     public View getView(int position, @Nullable  View view, @Nullable ViewGroup parent) {
 
         view = mLayoutInflater.inflate(R.layout.fragment_contact_item, parent, false);
+
+        ImageView imageView = (ImageView)view.findViewById(R.id.photo);
         TextView name = (TextView)view.findViewById(R.id.name);
         TextView phoneNumber = (TextView)view.findViewById(R.id.phoneNumber);
 
+        imageView.setImageResource(sample.get(position).getPhoto());
         name.setText(sample.get(position).getName());
         phoneNumber.setText(sample.get(position).getPhoneNumber());
 
