@@ -59,4 +59,3 @@ public class ContactFragment extends Fragment {
         contactList.add(new ContactData("girl", "01030004000"));
     }
 }
-}
