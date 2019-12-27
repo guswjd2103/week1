@@ -6,12 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.widget.TextView;
 import android.view.View;
+
 import com.example.week1_contact.fragment.ContactFragment;
 import com.example.week1_contact.fragment.PhotoFragment;
 import com.example.week1_contact.fragment.ThirdFragment;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,10 +23,13 @@ public class MainActivity extends AppCompatActivity {
     private ThirdFragment third_fragment;
 
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // layout dir 아래의 activity_main.xml파일을 view로 연결한다
+        setContentView(R.layout.activity_main);
+
+
 
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
