@@ -1,12 +1,12 @@
 package com.example.week1_contact;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
-import android.view.View;
 
 import com.example.week1_contact.fragment.ContactFragment;
 import com.example.week1_contact.fragment.PhotoFragment;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         third_fragment = new ThirdFragment();
 
         transaction.replace(R.id.frameLayout, contact_fragment).commit();
+
     }
 
     public void clickHandler(View view) {

@@ -22,7 +22,7 @@ public class ImageGridAdapter extends BaseAdapter {
         return (null != imageIDs) ? imageIDs.length : 0;
     }
 
-    public Object getItem(int position) {
+    public  Object getItem(int position) {
         return (null != imageIDs) ? imageIDs[position] : 0;
     }
 
@@ -44,8 +44,8 @@ public class ImageGridAdapter extends BaseAdapter {
             imageView.setAdjustViewBounds(true);
             imageView.setImageBitmap(bmp);
 
-            //ImageClickListener imageViewClickListener = new ImageClickListener(context, imageIDs[position]);
-            //imageView.setOnClickListener(imageViewClickListener);
+            ImageClickListener imageViewClickListener = new ImageClickListener(context, imageIDs[position]);
+            imageView.setOnClickListener(imageViewClickListener);
         }
 
         return imageView;

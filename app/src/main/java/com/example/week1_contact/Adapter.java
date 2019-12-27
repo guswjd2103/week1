@@ -38,7 +38,7 @@ public class Adapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, @Nullable  View view, @Nullable ViewGroup parent) {
+    public View getView(int position, @Nullable View view, @Nullable ViewGroup parent) {
 
         view = mLayoutInflater.inflate(R.layout.fragment_contact_item, parent, false);
         TextView name = (TextView)view.findViewById(R.id.name);
