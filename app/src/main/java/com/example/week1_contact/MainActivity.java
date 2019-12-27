@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         third_fragment = new ThirdFragment();
 
         transaction.replace(R.id.frameLayout, contact_fragment).commit();
-
     }
 
     public void clickHandler(View view) {
