@@ -52,7 +52,7 @@ public class ContactFragment extends Fragment {
     public void InitializeContact() {
         contactList = new ArrayList<ContactData>();
 
-        contactList.add(new ContactData("boy", "01010002000"));
-        contactList.add(new ContactData("girl", "01030004000"));
+        contactList.add(new ContactData(R.drawable.android, "하현정", "01083662103"));
+        contactList.add(new ContactData(R.drawable.android, "구윤회", "01012345678"));
     }
 }
