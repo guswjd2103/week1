@@ -7,21 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools = "http://schemas.android.com/tools"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:divider="#1FFFFFFF"
-    android:dividerHeight="1dp"
-    tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    android:dividerHeight="1dp"/>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listView" />
-
-</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

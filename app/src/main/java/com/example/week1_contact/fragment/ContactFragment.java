@@ -1,17 +1,21 @@
 package com.example.week1_contact.fragment;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
 
 import com.example.week1_contact.Adapter;
 import com.example.week1_contact.ContactData;
@@ -31,13 +35,12 @@ public class ContactFragment extends Fragment {
 
         this.InitializeContact();
         ListView listView = (ListView) view.findViewById(R.id.listView);
-        final Adapter myAdapter = new Adapter(getActivity().getApplicationContext(), contactList);
+        Adapter myAdapter = new Adapter(getActivity().getApplicationContext(), contactList);
         listView.setAdapter(myAdapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.d("hi", "fihi");
+                Log.d("hi", "fihi");
                 parent.getItemAtPosition(position);
                 if(contactList == null) {
                     Intent intent = new Intent(getActivity(), this.getClass());
@@ -46,14 +49,13 @@ public class ContactFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
     public void InitializeContact() {
         contactList = new ArrayList<ContactData>();
 
-        contactList.add(new ContactData(R.drawable.android, "하현정", "01083662103"));
-        contactList.add(new ContactData(R.drawable.android, "구윤회", "01012345678"));
+        contactList.add(new ContactData("boy", "01010002000"));
+        contactList.add(new ContactData("girl", "01030004000"));
     }
 }
