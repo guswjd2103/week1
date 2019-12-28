@@ -1,61 +1,78 @@
 package com.example.week1_contact;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
-import com.example.week1_contact.fragment.ContactFragment;
-import com.example.week1_contact.fragment.PhotoFragment;
-import com.example.week1_contact.fragment.ThirdFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private FragmentManager fragmentManager;
-    private FragmentTransaction transaction;
-
-    private ContactFragment contact_fragment;
-    private PhotoFragment photo_fragment;
-    private ThirdFragment third_fragment;
-
-
+    private ViewPager mViewPager;
+    private Context mContext;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = getApplicationContext();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        mViewPager = (ViewPager) findViewById(R.id.container);
 
-        fragmentManager = getSupportFragmentManager();
-        transaction = fragmentManager.beginTransaction();
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intent,1);
+//
+//            }
+//        });
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("contact"));
+        tabLayout.addTab(tabLayout.newTab().setText("photo"));
+        tabLayout.addTab(tabLayout.newTab().setText("wifi"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        contact_fragment = new ContactFragment();
-        photo_fragment = new PhotoFragment();
-        third_fragment = new ThirdFragment();
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
 
-        transaction.replace(R.id.frameLayout, contact_fragment).commit();
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
+    private View createTabView(String tabName) {
+        View tabView = LayoutInflater.from(mContext).inflate(R.layout.custom_tab, null);
+        TextView txt_name = (TextView) tabView.findViewById(R.id.txt_name);
+        txt_name.setText(tabName);
+        return tabView;
 
-    public void clickHandler(View view) {
-        transaction = fragmentManager.beginTransaction();
-
-        switch(view.getId())
-        {
-            case R.id.btn_ContactFragment:
-                transaction.replace(R.id.frameLayout, contact_fragment).commit();
-                break;
-            case R.id.btn_PhotoFragment:
-                transaction.replace(R.id.frameLayout, photo_fragment).commit();
-                break;
-            case R.id.btn_ThirdFragment:
-                transaction.replace(R.id.frameLayout, third_fragment).commit();
-                break;
-        }
     }
 }
