@@ -1,40 +1,42 @@
 package com.example.week1_contact.fragment;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.os.Build;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.Fragment;
 
 import com.example.week1_contact.Adapter;
 import com.example.week1_contact.ContactData;
 import com.example.week1_contact.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ContactFragment extends Fragment {
+
+    static final int PICK_CONTACT_REQUEST = 1;
+    static final int USER_DEFINED_RESULT_CODE = 101;
+
     ArrayList<ContactData> contactList = new ArrayList<ContactData>();
+    ArrayList<String> numberList = new ArrayList<String>();
+    ArrayList<String> nameList = new ArrayList<String>();
+    Adapter myAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class ContactFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
         this.getContacts(getActivity(), contactList);
         ListView listView = (ListView) view.findViewById(R.id.listView);
-        Adapter myAdapter = new Adapter(getActivity(), contactList);
+        myAdapter = new Adapter(getActivity(), contactList);
         listView.setAdapter(myAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -64,8 +66,66 @@ public class ContactFragment extends Fragment {
             }
         });
 
+
+        FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                addListItem(view);
+//                Snackbar.make(view, "item added to list", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+
         return view;
     }
+
+    private void addListItem(View view) {
+
+        Intent pickIntent = new Intent(ContactsContract.Intents.Insert.ACTION);
+        pickIntent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+        startActivityForResult(pickIntent, PICK_CONTACT_REQUEST);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case PICK_CONTACT_REQUEST:
+                switch (resultCode) {
+                    case 0:
+                        Uri contactUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+
+                        String[] projection = {ContactsContract.CommonDataKinds.Phone.CONTACT_ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER};
+                        Cursor cursor = getContext().getContentResolver().query(contactUri, projection, null, null, null);
+
+                        if(cursor!=null){
+                            while(cursor.moveToNext()){
+                                int nameidx = cursor.getColumnIndex(projection[1]);
+                                int numberidx = cursor.getColumnIndex(projection[2]);
+
+                                String name = cursor.getString(nameidx);
+                                String number = cursor.getString(numberidx);
+
+                                ContactData contactData = new ContactData(R.drawable.android, name, number);
+                                if(!numberList.contains(number) || !nameList.contains(name)) {
+                                    contactList.add(contactData);
+                                    numberList.add(number);
+                                    nameList.add(name);
+                                    Collections.sort(contactList);
+                                    myAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+
+                        cursor.close();
+                        break;
+
+                }
+                break;
+        }
+    }
+
 
     public List<ContactData> getContacts(Context context, List<ContactData> contactsList) {
         ContentResolver resolver = context.getContentResolver();
@@ -86,11 +146,14 @@ public class ContactFragment extends Fragment {
 
                 ContactData contactData = new ContactData(R.drawable.android, name, number);
                 contactsList.add(contactData);
+                numberList.add(number);
+                nameList.add(name);
             }
         }
+
+        Collections.sort(contactsList);
 
         cursor.close();
         return contactsList;
     }
-
 }

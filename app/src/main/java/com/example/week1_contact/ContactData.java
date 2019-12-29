@@ -1,6 +1,6 @@
 package com.example.week1_contact;
 
-public class ContactData {
+public class ContactData implements  Comparable<ContactData> {
     private int photo;
     private String name;
     private String phoneNumber;
@@ -21,5 +21,10 @@ public class ContactData {
 
     public String getPhoneNumber() {
         return this.phoneNumber;
+    }
+
+    @Override
+    public int compareTo(ContactData contactData) {
+        return this.name.compareTo(contactData.getName());
     }
 }

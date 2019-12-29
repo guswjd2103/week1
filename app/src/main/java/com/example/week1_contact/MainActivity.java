@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        });
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("contact"));
         tabLayout.addTab(tabLayout.newTab().setText("photo"));
