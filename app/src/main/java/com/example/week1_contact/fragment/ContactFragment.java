@@ -114,7 +114,7 @@ public class ContactFragment extends Fragment {
                                 String name = cursor.getString(nameidx);
                                 String number = cursor.getString(numberidx);
 
-                                ContactData contactData = new ContactData(R.drawable.android, name, number, i);
+                                ContactData contactData = new ContactData(R.drawable.profile, name, number, i);
                                 i+=1;
                                 if(!numberList.contains(number) || !nameList.contains(name)) {
                                     contactList.add(contactData);
@@ -152,7 +152,7 @@ public class ContactFragment extends Fragment {
                 String name = cursor.getString(nameidx);
                 String number = cursor.getString(numberidx);
 
-                ContactData contactData = new ContactData(R.drawable.android, name, number, i);
+                ContactData contactData = new ContactData(R.drawable.profile, name, number, i);
                 i+=1;
                 contactsList.add(contactData);
                 numberList.add(number);
