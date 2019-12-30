@@ -2,6 +2,7 @@ package com.example.week1_contact.fragment;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,6 +38,9 @@ public class ContactFragment extends Fragment {
     ArrayList<String> numberList = new ArrayList<String>();
     ArrayList<String> nameList = new ArrayList<String>();
     Adapter myAdapter;
+    int i = 0;
+
+    Cursor cursor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,11 +62,14 @@ public class ContactFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                parent.getItemAtPosition(position);
-                if(contactList == null) {
-                    Intent intent = new Intent(getActivity(), this.getClass());
-                    startActivity(intent);
-                }
+                String[] projection = {ContactsContract.CommonDataKinds.Phone.CONTACT_ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER};
+                Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null, null);
+                cursor.moveToPosition(contactList.get(position).getId());
+
+                Uri selectUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, (cursor.getLong(0)));
+                Uri lookUp = ContactsContract.Contacts.getLookupUri(getActivity().getContentResolver(), selectUri);
+                Intent intent = new Intent(Intent.ACTION_VIEW, lookUp);
+                startActivity(intent);
             }
         });
 
@@ -107,7 +114,8 @@ public class ContactFragment extends Fragment {
                                 String name = cursor.getString(nameidx);
                                 String number = cursor.getString(numberidx);
 
-                                ContactData contactData = new ContactData(R.drawable.android, name, number);
+                                ContactData contactData = new ContactData(R.drawable.android, name, number, i);
+                                i+=1;
                                 if(!numberList.contains(number) || !nameList.contains(name)) {
                                     contactList.add(contactData);
                                     numberList.add(number);
@@ -144,7 +152,8 @@ public class ContactFragment extends Fragment {
                 String name = cursor.getString(nameidx);
                 String number = cursor.getString(numberidx);
 
-                ContactData contactData = new ContactData(R.drawable.android, name, number);
+                ContactData contactData = new ContactData(R.drawable.android, name, number, i);
+                i+=1;
                 contactsList.add(contactData);
                 numberList.add(number);
                 nameList.add(name);

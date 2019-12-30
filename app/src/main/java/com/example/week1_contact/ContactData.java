@@ -4,11 +4,13 @@ public class ContactData implements  Comparable<ContactData> {
     private int photo;
     private String name;
     private String phoneNumber;
+    private int id;
 
-    public ContactData(int photo, String name, String phoneNumber) {
+    public ContactData(int photo, String name, String phoneNumber, int id) {
         this.photo = photo;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.id = id;
     }
 
     public int getPhoto() {
@@ -21,6 +23,10 @@ public class ContactData implements  Comparable<ContactData> {
 
     public String getPhoneNumber() {
         return this.phoneNumber;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     @Override
