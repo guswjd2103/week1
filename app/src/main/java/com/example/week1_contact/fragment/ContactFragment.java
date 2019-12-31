@@ -36,7 +36,7 @@ public class ContactFragment extends Fragment {
     ArrayList<String> numberList = new ArrayList<String>();
     ArrayList<String> nameList = new ArrayList<String>();
     com.example.wee.Adapter myAdapter;
-    int i = 0;
+    int i;
 
     Cursor cursor;
 
@@ -137,6 +137,7 @@ public class ContactFragment extends Fragment {
         numberList.clear();
         nameList.clear();
         contactsList.clear();
+        i=0;
         ContentResolver resolver = context.getContentResolver();
         Uri phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 
