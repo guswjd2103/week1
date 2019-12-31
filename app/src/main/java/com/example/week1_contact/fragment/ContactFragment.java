@@ -32,7 +32,6 @@ import java.util.List;
 public class ContactFragment extends Fragment {
 
     static final int PICK_CONTACT_REQUEST = 1;
-    static final int USER_DEFINED_RESULT_CODE = 101;
 
     ArrayList<ContactData> contactList = new ArrayList<ContactData>();
     ArrayList<String> numberList = new ArrayList<String>();
@@ -136,6 +135,9 @@ public class ContactFragment extends Fragment {
 
 
     public List<ContactData> getContacts(Context context, List<ContactData> contactsList) {
+        numberList.clear();
+        nameList.clear();
+        contactsList.clear();
         ContentResolver resolver = context.getContentResolver();
         Uri phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 

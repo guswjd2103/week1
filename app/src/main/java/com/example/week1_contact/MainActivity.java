@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("contact"));
-        tabLayout.addTab(tabLayout.newTab().setText("photo"));
-        tabLayout.addTab(tabLayout.newTab().setText("wifi"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.contact));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.photo));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.wifi));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
