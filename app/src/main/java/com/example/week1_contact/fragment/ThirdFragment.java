@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -70,6 +70,7 @@ public class ThirdFragment extends Fragment {
 
         wifiList.clear();
         BSSIDList.clear();
+//        adapter.notifyDataSetChanged();
 
         if(!doneWifiScan) {
             scanResults = wifiManager.getScanResults();
@@ -96,8 +97,10 @@ public class ThirdFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        wifiList.clear();
-        BSSIDList.clear();
+//        wifiList.clear();
+//        BSSIDList.clear();
+//        adapter.notifyDataSetChanged();
+//        requestRunTimePermissions();
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION)) {
@@ -132,6 +135,7 @@ public class ThirdFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(mContext, wifiList.get(position).getSSID(), Toast.LENGTH_SHORT).show();
+//                connectWiFi(scanResults.get(position));
             }
         });
 
@@ -143,9 +147,17 @@ public class ThirdFragment extends Fragment {
                     Toast.makeText(getActivity(), "WIFI scan start!!", Toast.LENGTH_LONG).show();
                     wifiManager.startScan();
                     doneWifiScan = false;
-                } else {
-                    stopWifi();
                 }
+            }
+        });
+
+        FloatingActionButton btn2 = (FloatingActionButton)view.findViewById(R.id.stop);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Toast.makeText(getActivity(), "WIFI scan stopped!!", Toast.LENGTH_LONG).show();
+                    stopWifi();
+                    doneWifiScan = true;
 
             }
         });
@@ -161,6 +173,10 @@ public class ThirdFragment extends Fragment {
 
     public void stopWifi() {
         mContext.unregisterReceiver(receiver);
+    }
+
+    private void requestRunTimePermissions() {
+
     }
 
     @Override
@@ -179,5 +195,91 @@ public class ThirdFragment extends Fragment {
         super.onPause();
         getContext().unregisterReceiver(receiver);
     }
+
+//    public void connectWiFi(ScanResult scanResult) {
+//        try {
+//
+//            Log.v("rht", "Item clicked, SSID " + scanResult.SSID + " Security : " + scanResult.capabilities);
+//
+//            String networkSSID = scanResult.SSID;
+//            String networkPass = "12345678";
+//
+//            WifiConfiguration conf = new WifiConfiguration();
+//            conf.SSID = "\"" + networkSSID + "\"";   // Please note the quotes. String should contain ssid in quotes
+//            conf.status = WifiConfiguration.Status.ENABLED;
+//            conf.priority = 40;
+//
+//            if (scanResult.capabilities.toUpperCase().contains("WEP")) {
+//                Log.v("rht", "Configuring WEP");
+//                conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+//                conf.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+//                conf.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+//                conf.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+//                conf.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+//                conf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+//                conf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+//
+//                if (networkPass.matches("^[0-9a-fA-F]+$")) {
+//                    conf.wepKeys[0] = networkPass;
+//                } else {
+//                    conf.wepKeys[0] = "\"".concat(networkPass).concat("\"");
+//                }
+//
+//                conf.wepTxKeyIndex = 0;
+//
+//            } else if (scanResult.capabilities.toUpperCase().contains("WPA")) {
+//                Log.v("rht", "Configuring WPA");
+//
+//                conf.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+//                conf.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+//                conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+//                conf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+//                conf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+//
+//                conf.preSharedKey = "\"" + networkPass + "\"";
+//
+//            } else {
+//                Log.v("rht", "Configuring OPEN network");
+//                conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+//                conf.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+//                conf.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+//                conf.allowedAuthAlgorithms.clear();
+//                conf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+//                conf.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+//                conf.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+//            }
+//
+//            WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(WIFI_SERVICE);
+//            int networkId = wifiManager.addNetwork(conf);
+//
+//            Log.v("rht", "Add result " + networkId);
+//
+//            List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+//            for (WifiConfiguration i : list) {
+//                if (i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
+//                    Log.v("rht", "WifiConfiguration SSID " + i.SSID);
+//                    boolean isDisconnected = wifiManager.disconnect();
+//                    Log.v("rht", "isDisconnected : " + isDisconnected);
+//                    boolean isEnabled = wifiManager.enableNetwork(i.networkId, true);
+//                    Log.v("rht", "isEnabled : " + isEnabled);
+//                    boolean isReconnected = wifiManager.reconnect();
+//                    Log.v("rht", "isReconnected : " + isReconnected);
+//                    break;
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
