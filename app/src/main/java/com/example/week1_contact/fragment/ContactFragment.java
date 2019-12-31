@@ -20,7 +20,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.week1_contact.Adapter;
 import com.example.week1_contact.ContactData;
 import com.example.week1_contact.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,7 +35,7 @@ public class ContactFragment extends Fragment {
     ArrayList<ContactData> contactList = new ArrayList<ContactData>();
     ArrayList<String> numberList = new ArrayList<String>();
     ArrayList<String> nameList = new ArrayList<String>();
-    Adapter myAdapter;
+    com.example.wee.Adapter myAdapter;
     int i = 0;
 
     Cursor cursor;
@@ -56,7 +55,7 @@ public class ContactFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
         this.getContacts(getActivity(), contactList);
         ListView listView = (ListView) view.findViewById(R.id.listView);
-        myAdapter = new Adapter(getActivity(), contactList);
+        myAdapter = new com.example.wee.Adapter(getActivity(), contactList);
         listView.setAdapter(myAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

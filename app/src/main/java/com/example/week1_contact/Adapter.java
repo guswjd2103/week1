@@ -1,4 +1,4 @@
-package com.example.week1_contact;
+package com.example.wee;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+
+import com.example.week1_contact.ContactData;
+import com.example.week1_contact.R;
 
 import java.util.ArrayList;
 
