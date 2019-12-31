@@ -13,6 +13,7 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.example.week1_contact.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -35,7 +36,7 @@ public class ContactFragment extends Fragment {
     ArrayList<ContactData> contactList = new ArrayList<ContactData>();
     ArrayList<String> numberList = new ArrayList<String>();
     ArrayList<String> nameList = new ArrayList<String>();
-    com.example.wee.Adapter myAdapter;
+    Adapter myAdapter;
     int i;
 
     Cursor cursor;
@@ -55,7 +56,7 @@ public class ContactFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
         this.getContacts(getActivity(), contactList);
         ListView listView = (ListView) view.findViewById(R.id.listView);
-        myAdapter = new com.example.wee.Adapter(getActivity(), contactList);
+        myAdapter = new Adapter(getActivity(), contactList);
         listView.setAdapter(myAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

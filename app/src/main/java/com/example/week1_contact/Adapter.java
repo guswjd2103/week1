@@ -1,4 +1,4 @@
-package com.example.wee;
+package com.example.week1_contact;
 
 import android.content.Context;
 import android.view.LayoutInflater;

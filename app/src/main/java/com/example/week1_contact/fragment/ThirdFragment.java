@@ -107,7 +107,8 @@ public class ThirdFragment extends Fragment {
                                 Manifest.permission.ACCESS_WIFI_STATE,
                                 Manifest.permission.ACCESS_NETWORK_STATE,
                                 Manifest.permission.CHANGE_WIFI_STATE,
-                                Manifest.permission.CHANGE_WIFI_MULTICAST_STATE
+                                Manifest.permission.CHANGE_WIFI_MULTICAST_STATE,
+                                Manifest.permission.SYSTEM_ALERT_WINDOW
                         },
                         1);
             }
@@ -131,7 +132,10 @@ public class ThirdFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(mContext, wifiList.get(position).getSSID(), Toast.LENGTH_SHORT).show();
-                connectWiFi(scanResults.get(position));
+                final ScanResult result = scanResults.get(position);
+                Log.d("ssid", result.SSID);
+                openDialog(result);
+//                connectWiFi(scanResults.get(position)); // 아이템 클릭하면 패스워드 받아서 여기 함수로 전해주기
             }
         });
 
@@ -171,6 +175,22 @@ public class ThirdFragment extends Fragment {
         mContext.unregisterReceiver(receiver);
     }
 
+    private void openDialog(final ScanResult scanResults) {
+        PasswordDialogFragment dialogFragment = PasswordDialogFragment.newInstance(new PasswordDialogFragment.PasswordInputListener() {
+            @Override
+            public void onPasswordInputComplete(String password) {
+                if(password!=null) {
+                    final ScanResult param = scanResults;
+                    Log.d("password", password);
+                    connectWiFi(param, password);
+                } else {
+                    Log.d("password", "nononono");
+                }
+            }
+        });
+        dialogFragment.show(getFragmentManager(), "addDialog");
+    }
+
 //    @Override
 //    public void onResume() {
 //        super.onResume();
@@ -188,13 +208,13 @@ public class ThirdFragment extends Fragment {
 //        getContext().unregisterReceiver(receiver);
 //    }
 
-    public void connectWiFi(ScanResult scanResult) {
+    public void connectWiFi(ScanResult scanResult, String password) {
         try {
 
             Log.v("rht", "Item clicked, SSID " + scanResult.SSID + " Security : " + scanResult.capabilities);
 
             String networkSSID = scanResult.SSID;
-            String networkPass = "12345678";
+            String networkPass = password; //다이얼로그에서 받은 패스워드 받아오기
 
             WifiConfiguration conf = new WifiConfiguration();
             conf.SSID = "\"" + networkSSID + "\"";   // Please note the quotes. String should contain ssid in quotes
