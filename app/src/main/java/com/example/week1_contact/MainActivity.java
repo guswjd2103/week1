@@ -12,9 +12,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-//import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
@@ -49,12 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }

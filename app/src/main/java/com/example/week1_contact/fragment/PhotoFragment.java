@@ -68,8 +68,7 @@ public class PhotoFragment extends Fragment {
 
         public void callImageViewer(int selectedIndex){
             Intent i = new Intent(mContext, PhotoFragment_Zoomed_Activity.class);
-            thumbsDataList.add(String.valueOf(selectedIndex));
-            i.putExtra("thumbsDataList", thumbsDataList);
+            i.putExtra("thumbsDataList", thumbsDataList).putExtra("index", selectedIndex);
             startActivity(i);
         }
 
@@ -174,7 +173,7 @@ public class PhotoFragment extends Fragment {
                         thumbsIDs.add(thumbsID);
                         thumbsDatas.add(thumbsData);
                     }
-                }while (imageCursor.moveToNext());
+                } while (imageCursor.moveToNext());
             }
             imageCursor.close();
             return;

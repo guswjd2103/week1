@@ -58,5 +58,4 @@ public class Adapter extends BaseAdapter {
 
         return view;
     }
-
 }
