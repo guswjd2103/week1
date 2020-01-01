@@ -28,9 +28,6 @@ public class WifiAdapter extends ArrayAdapter<WifiData> {
 
     @Override
     public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {
-//        ViewHolder holder;
-
-//        if(convertView == null) {
             convertView = inflater.inflate(resource, parent, false);
 
             TextView ssid = (TextView) convertView.findViewById(R.id.ssidTextView);
@@ -40,31 +37,6 @@ public class WifiAdapter extends ArrayAdapter<WifiData> {
             ssid.setText(wifiData.get(position).getSSID());
             bssid.setText(wifiData.get(position).getBSSID());
             rssi.setText(wifiData.get(position).getRSSI());
-//            holder = new ViewHolder();
-//
-//            holder.ssidTextView = (TextView) convertView.findViewById(R.id.ssidTextView);
-//            holder.bssidTextView = (TextView) convertView.findViewById(R.id.bssidTextView);
-//            holder.rssiLevelTextView = (TextView) convertView.findViewById(R.id.rssiLevelTextView);
-
-//            convertView.setTag(holder);
-
-
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-
-//        WifiData wifiDatas = wifiData.get(position);
-
-//        holder.ssidTextView.setText(wifiData.get(position).getSSID());
-//        holder.bssidTextView.setText(wifiData.get(position).getBSSID());
-//        holder.rssiLevelTextView.setText(wifiData.get(position).getRSSI());
-
         return convertView;
     }
-
-//    class ViewHolder {
-//        TextView ssidTextView;
-//        TextView bssidTextView;
-//        TextView rssiLevelTextView;
-//    }
 }

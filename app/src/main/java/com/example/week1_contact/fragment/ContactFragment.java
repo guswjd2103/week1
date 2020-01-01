@@ -78,7 +78,6 @@ public class ContactFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 addListItem(view);
-//                Snackbar.make(view, "item added to list", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -124,10 +123,8 @@ public class ContactFragment extends Fragment {
                                 }
                             }
                         }
-
                         cursor.close();
                         break;
-
                 }
                 break;
         }

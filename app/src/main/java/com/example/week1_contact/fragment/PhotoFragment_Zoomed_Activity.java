@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.week1_contact.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PhotoFragment_Zoomed_Activity extends Activity{
@@ -36,8 +39,8 @@ public class PhotoFragment_Zoomed_Activity extends Activity{
         Intent i = getIntent();
         ArrayList<String> DATA = (ArrayList<String>) i.getSerializableExtra("thumbsDataList");
 
-        position = Integer.parseInt(DATA.get(DATA.size()-1));
-        DATA.remove(DATA.size()-1);
+        position = Integer.parseInt(DATA.get(DATA.size() - 1));
+        DATA.remove(DATA.size() - 1);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         adapter = new SliderAdapter(this, DATA);
@@ -45,17 +48,11 @@ public class PhotoFragment_Zoomed_Activity extends Activity{
         viewPager.setCurrentItem(position);
     }
 
-    public void onClick(View v) {
-    }
-
     public class SliderAdapter extends PagerAdapter {
 
         private LayoutInflater inflater;
         private Context context;
         private  ArrayList<String> thumbsDataList;
-
-        private final int imgWidth = 320;
-        private final int imgHeight = 372;
 
         public SliderAdapter(Context context, ArrayList<String> thumbsDataList){
             this.context = context;
@@ -72,6 +69,41 @@ public class PhotoFragment_Zoomed_Activity extends Activity{
             return view == ((ConstraintLayout) object);
         }
 
+        public int getOrientationOfImage(String filepath) {
+            ExifInterface exif = null;
+
+            try {
+                exif = new ExifInterface(filepath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return -1;
+            }
+
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+
+            if (orientation != -1) {
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        return 90;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        return 180;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        return 270;
+                }
+            }
+            return 0;
+        }
+
+        public Bitmap getRotatedBitmap(Bitmap bitmap, int degrees){
+            if(bitmap == null) return null;
+            if (degrees == 0) return bitmap;
+
+            Matrix m = new Matrix();
+            m.setRotate(degrees, (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
+        }
+
         @Override
         public Object instantiateItem(ViewGroup container, int position){
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -79,10 +111,10 @@ public class PhotoFragment_Zoomed_Activity extends Activity{
 
 
             BitmapFactory.Options bo = new BitmapFactory.Options();
-            bo.inSampleSize = 8;
+            bo.inSampleSize = 2;
             ImageView iv = (ImageView) v.findViewById(R.id.imageZoomedView);
             Bitmap bmp = BitmapFactory.decodeFile(thumbsDataList.get(position), bo);
-            Bitmap resized = Bitmap.createScaledBitmap(bmp, 360, 480, true);
+            Bitmap resized = getRotatedBitmap(bmp, getOrientationOfImage(thumbsDataList.get(position)));
             iv.setImageBitmap(resized);
             container.addView(v);
             return v;

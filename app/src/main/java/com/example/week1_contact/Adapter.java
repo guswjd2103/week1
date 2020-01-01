@@ -41,7 +41,6 @@ public class Adapter extends BaseAdapter {
         return sample.get(position);
     }
 
-
     public String getItemName(int position) { return sample.get(position).getName();}
 
     @Override

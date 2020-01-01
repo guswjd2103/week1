@@ -67,14 +67,11 @@ public class ThirdFragment extends Fragment {
     };
 
     private void getWifiInfo() {
-
         wifiList.clear();
         BSSIDList.clear();
-//        adapter.notifyDataSetChanged();
 
         if(!doneWifiScan) {
             scanResults = wifiManager.getScanResults();
-//            Log.d("scan length", String.valueOf(scanResults.size()));
 
             for(int i=0; i<scanResults.size();i++) {
                 ScanResult select = scanResults.get(i);
@@ -113,7 +110,6 @@ public class ThirdFragment extends Fragment {
                         1);
             }
         }
-//        Log.d("third", "third");
 
         View view = inflater.inflate(R.layout.fragment_third, container, false);
         mContext = view.getContext();
@@ -135,7 +131,6 @@ public class ThirdFragment extends Fragment {
                 final ScanResult result = scanResults.get(position);
                 Log.d("ssid", result.SSID);
                 openDialog(result);
-//                connectWiFi(scanResults.get(position)); // 아이템 클릭하면 패스워드 받아서 여기 함수로 전해주기
             }
         });
 
@@ -158,7 +153,6 @@ public class ThirdFragment extends Fragment {
                     Toast.makeText(getActivity(), "WIFI scan stopped!!", Toast.LENGTH_LONG).show();
                     stopWifi();
                     doneWifiScan = true;
-
             }
         });
         return  view;
@@ -179,11 +173,12 @@ public class ThirdFragment extends Fragment {
         PasswordDialogFragment dialogFragment = PasswordDialogFragment.newInstance(new PasswordDialogFragment.PasswordInputListener() {
             @Override
             public void onPasswordInputComplete(String password) {
-                if(password!=null) {
+                if(password != null) {
+                    Toast.makeText(mContext, "Connecting..", Toast.LENGTH_SHORT).show();
                     final ScanResult param = scanResults;
-                    Log.d("password", password);
                     connectWiFi(param, password);
                 } else {
+                    Toast.makeText(mContext, "Null Password!", Toast.LENGTH_SHORT).show();
                     Log.d("password", "nononono");
                 }
             }
@@ -191,26 +186,8 @@ public class ThirdFragment extends Fragment {
         dialogFragment.show(getFragmentManager(), "addDialog");
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        filter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-//        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-//        getContext().registerReceiver(receiver, filter);
-//        wifiManager.startScan();
-//
-//        listView.setFocusable(true);
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        getContext().unregisterReceiver(receiver);
-//    }
-
     public void connectWiFi(ScanResult scanResult, String password) {
         try {
-
             Log.v("rht", "Item clicked, SSID " + scanResult.SSID + " Security : " + scanResult.capabilities);
 
             String networkSSID = scanResult.SSID;
@@ -288,7 +265,6 @@ public class ThirdFragment extends Fragment {
                     break;
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
