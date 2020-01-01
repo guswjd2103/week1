@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -81,8 +83,9 @@ public class ThirdFragment extends Fragment {
 
                 if(!BSSIDList.contains(SSID)) {
                     BSSIDList.add(SSID);
-                    WifiData wifiData = new WifiData(SSID, BSSID, RSSI);
+                    WifiData wifiData = new WifiData(SSID, BSSID, RSSI, i);
                     wifiList.add(wifiData);
+
                 }
                 Log.d("wifi", SSID);
             }
@@ -128,8 +131,10 @@ public class ThirdFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(mContext, wifiList.get(position).getSSID(), Toast.LENGTH_SHORT).show();
-                final ScanResult result = scanResults.get(position);
-                Log.d("ssid", result.SSID);
+//                Log.d("ssid1", wifiList.get(position).getSSID());
+                int idx = wifiList.get(position).getID();
+                final ScanResult result = scanResults.get(idx);
+//                Log.d("ssid", result.SSID);
                 openDialog(result);
             }
         });
@@ -265,9 +270,20 @@ public class ThirdFragment extends Fragment {
                     break;
                 }
             }
+
+//            ConnectivityManager connManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+//            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+//
+//            if (mWifi.isConnected()) {
+//                Toast.makeText(getActivity(), "WIFI Connect Success!", Toast.LENGTH_LONG).show();
+//            } else {
+//                Toast.makeText(getActivity(), "WIFI Connect Fail!", Toast.LENGTH_LONG).show();
+//            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 }

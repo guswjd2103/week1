@@ -4,12 +4,14 @@ public class WifiData implements Comparable<WifiData> {
     private String SSID;
     private String BSSID;
     private String RSSI;
+    private int ID;
 //    private boolean isOn; // 허용 /차단
 
-    public WifiData(String SSID, String BSSID, String RSSI) {
+    public WifiData(String SSID, String BSSID, String RSSI, int ID) {
         this.SSID = SSID;
         this.BSSID = BSSID;
         this.RSSI = RSSI;
+        this.ID = ID;
 //        this.isOn = isOn;
     }
 
@@ -23,6 +25,10 @@ public class WifiData implements Comparable<WifiData> {
 
     public String getRSSI() {
         return this.RSSI;
+    }
+
+    public int getID() {
+        return this.ID;
     }
 
 //    public boolean getisOn() {
