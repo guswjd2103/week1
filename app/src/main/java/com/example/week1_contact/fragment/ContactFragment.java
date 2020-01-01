@@ -136,7 +136,7 @@ public class ContactFragment extends Fragment {
         ContentResolver resolver = context.getContentResolver();
         Uri phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 
-        String[] projection = {ContactsContract.CommonDataKinds.Phone.CONTACT_ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER};
+        String[] projection = {ContactsContract.CommonDataKinds.Phone.CONTACT_ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.Contacts.PHOTO_ID};
 
         Cursor cursor = resolver.query(phoneUri, projection, null, null, null);
 
@@ -145,11 +145,12 @@ public class ContactFragment extends Fragment {
                 int idx = cursor.getColumnIndex(projection[0]);
                 int nameidx = cursor.getColumnIndex(projection[1]);
                 int numberidx = cursor.getColumnIndex(projection[2]);
+                int photoidx = cursor.getInt(3);
 
                 String name = cursor.getString(nameidx);
                 String number = cursor.getString(numberidx);
 
-                ContactData contactData = new ContactData(R.drawable.profile, name, number, i);
+                ContactData contactData = new ContactData(photoidx, name, number, i);
                 i+=1;
                 contactsList.add(contactData);
                 numberList.add(number);
