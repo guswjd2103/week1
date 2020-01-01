@@ -53,12 +53,16 @@ public class PhotoFragment_Zoomed_Activity extends Activity{
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         button.bringToFront();
 
+        adapter = new SliderAdapter(this, DATA);
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(position);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder Dialog = new AlertDialog.Builder(PhotoFragment_Zoomed_Activity.this);
                 Dialog.setTitle("Path");
-                Dialog.setMessage(DATA.get(position));
+                Dialog.setMessage(DATA.get(viewPager.getCurrentItem()));
 
                 Dialog.setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
@@ -69,10 +73,6 @@ public class PhotoFragment_Zoomed_Activity extends Activity{
                 Dialog.show();
             }
         });
-
-        adapter = new SliderAdapter(this, DATA);
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(position);
     }
 
     public class SliderAdapter extends PagerAdapter {
