@@ -72,7 +72,6 @@ public class ContactFragment extends Fragment {
             }
         });
 
-
         FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -85,11 +84,9 @@ public class ContactFragment extends Fragment {
     }
 
     private void addListItem(View view) {
-
         Intent pickIntent = new Intent(ContactsContract.Intents.Insert.ACTION);
         pickIntent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
         startActivityForResult(pickIntent, PICK_CONTACT_REQUEST);
-
     }
 
     @Override

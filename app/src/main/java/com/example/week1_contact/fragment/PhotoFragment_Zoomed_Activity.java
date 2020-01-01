@@ -34,8 +34,6 @@ public class PhotoFragment_Zoomed_Activity extends Activity{
 
     private Context mContext = null;
 
-    public static final String TAG = "Test_Alert_Dialog";
-
     SliderAdapter adapter;
     ViewPager viewPager;
     int position;
@@ -59,13 +57,12 @@ public class PhotoFragment_Zoomed_Activity extends Activity{
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder Dialog = new AlertDialog.Builder(PhotoFragment_Zoomed_Activity.this);
-                Dialog.setTitle("Details");
+                Dialog.setTitle("Path");
                 Dialog.setMessage(DATA.get(position));
 
                 Dialog.setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.v(TAG, "NEUTRAL");
                         dialog.dismiss();
                     }
                 });
@@ -76,8 +73,6 @@ public class PhotoFragment_Zoomed_Activity extends Activity{
         adapter = new SliderAdapter(this, DATA);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(position);
-        Log.d("THIS_VALUE", String.valueOf(DATA.size()));
-        Log.d("WHAT_IS_VALUE", String.valueOf(DATA));
     }
 
     public class SliderAdapter extends PagerAdapter {

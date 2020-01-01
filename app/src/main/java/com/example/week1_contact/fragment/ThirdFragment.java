@@ -155,7 +155,7 @@ public class ThirdFragment extends Fragment {
                     doneWifiScan = true;
             }
         });
-        return  view;
+        return view;
     }
 
     public void initWifiScan() {
